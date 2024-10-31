@@ -79,7 +79,7 @@ const Details = () => {
                 </div>
                 {
                     cartItems.map((elem, idx) => (
-                        <div className="selectionDetail DIY">
+                        <div key={`selection_${idx}`} className="selectionDetail DIY">
                             <div className="unitdetail special">
                                 <h3>Engagements</h3>
                                 <h4>{elem?.platform}</h4>

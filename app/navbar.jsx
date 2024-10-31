@@ -78,7 +78,7 @@ const Navbar = () => {
             </SignedOut>
             <SignedIn>
                 <button onClick={() => {setshowDropdown(prev => !prev)}} type="button" className="profileBtn">
-                    <img src="/login.png" alt="profile image" />
+                    <img src={user?.imageUrl} alt="profile image" />
                     <h4>{user?.fullName}</h4>
                     <i className="icofont-caret-down"></i>
 
@@ -111,8 +111,8 @@ const Navbar = () => {
                             </div>
                             <div className="cartBody">
                                 {
-                                    cartItems?.map((elem) => (
-                                        <div className="unitCartItem">
+                                    cartItems?.map((elem, idx) => (
+                                        <div key={`cartItem_${idx}`} className="unitCartItem">
                                             <h3><span>{elem?.platform}</span> <span>{elem?.plan}</span></h3>
                                             <div className="itemdetails">
                                                 <p>Likes: <span>{elem?.planData?.likes}</span></p>

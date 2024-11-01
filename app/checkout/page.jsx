@@ -1,5 +1,6 @@
 import Navbar from '../navbar'
 import Footer from '../footer'
+import Details from './details'
 
 const Page = () => {
     return (
@@ -8,14 +9,14 @@ const Page = () => {
             <div className="processTracker">
                 <div className="unittracker"><img src="/done.png" alt="mark sign" /> Pick a plan</div>
                 <span></span>
-                <div className="unittracker ongoing"><b>2</b> Confirm Bouquet</div>
+                <div className="unittracker"><img src="/done.png" alt="mark sign" /> Confirm Bouquet</div>
                 <span></span>
-                <div className="unittracker pending"><b>3</b> Checkout</div>
+                <div className="unittracker ongoing"><b>3</b> Checkout</div>
                 <span></span>
                 <div className="unittracker pending"><b>4</b> Request complete</div>
             </div>
-            <div className="confirmGrandCntn">
-            </div>
+            <Details></Details>
+            
             <Footer></Footer>
         </main>
     )

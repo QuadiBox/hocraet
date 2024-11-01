@@ -66,6 +66,7 @@ body, main{
     top: 0;
     left: 0;
     z-index: 200;
+    background-color: white;
 }
 
 .navCntn .logo{
@@ -1050,6 +1051,8 @@ footer{
     margin-block: 2em;
 }
 
+
+/******** ORDER COMPLETION PAGES EXTRA STYLINGS ARE HERE******/
 .confirmGrandCntn{
     width: 100%;
     padding-block: 2em 3em;
@@ -1060,6 +1063,14 @@ footer{
     background-color: white;
     margin-block: 2em;
 }
+.confirmGrandCntn.special{
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
 
 .confirmCntn{
     width: 100%;
@@ -1071,6 +1082,18 @@ footer{
     border: 1px solid gray;
     overflow: hidden;
     padding-bottom: 3em;
+}
+.checkoutDetails{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    margin-block: 2em;
+    border-radius: 9px;
+    border: 1px solid gray;
+    overflow: hidden;
+    padding-bottom: 0em;
+    height: max-content;
 }
 .confirmCntn > h1{
     width: 100%;
@@ -1084,12 +1107,83 @@ footer{
     color: var(--dark-text-clr);
     overflow: hidden;
     background-color: var(--tertiary-100, #FEEBD7);
+    border-bottom: 1px solid gray;
 }
+.checkoutDetails > h2{
+    width: 100%;
+    padding-block: 10px;
+    padding-inline: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    font-size: 1.09em;
+    font-weight: 400;
+    color: var(--dark-text-clr);
+    overflow: hidden;
+    border-bottom: 1px solid gray;
+    background-color: var(--tertiary-100, #FEEBD7);
+}
+
+.checkoutDetails .summary{
+    border-bottom: 1px solid gray;
+    padding: 1.6em 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.checkoutDetails .summary p{
+    font-size: 0.98em;
+    font-weight: 400;
+    color: gray;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+}
+.checkoutDetails .summary p b{
+    font-size: 0.98em;
+    font-weight: 400;
+    color: gray;
+}
+.checkoutDetails .summary p span{
+    font-size: 0.98em;
+    font-weight: 400;
+    color: var(--dark-text-clr);
+}
+.checkoutDetails .summary p{
+    font-size: 1.08em;
+    font-weight: 600;
+    color: var(--dark-text-clr);
+}
+.checkoutDetails .total{
+    padding: 1em 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+    background-color: var(--lighter-grey-clr);
+}
+.checkoutDetails .total b{
+    font-size: 1.18em;
+    font-weight: 500;
+}
+.checkoutDetails .total span{
+    font-size: 1.38em;
+    font-weight: 300;
+}
+
+
 
 .theDetailsCntn{
     width: 100%;
     padding-inline: 30px;
 }
+
+
+
+/******** ORDER COMPLETION PAGES EXTRA STYLINGS ENDS HERE******/
+
 
 .pricingSect > h2{
     font-size: 2em;
@@ -1365,7 +1459,31 @@ footer{
     justify-content: end;
 }
 
-.pricingSect > a, .confirmCntn > a{
+.blueBtn{
+    padding-inline: 1.9em;
+    margin-inline: auto;
+    transform: translateY(-50%);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.97em;
+    font-weight: 300;
+    color: white;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+
+    height: 66px;
+    width: 100%;
+    min-width: max-content;
+    margin-top: 3em;
+    padding-block: 15px;
+    max-width: 270px;
+
+    background: linear-gradient(180deg, #0761AB 68.34%, #054478 136.17%, #032745 204%);
+}
+
+.pricingSect > a, .confirmCntn > a, .confirmCntn button{
     padding-inline: 1.9em;
     margin-inline: auto;
     transform: translateY(-50%);
@@ -1444,6 +1562,7 @@ footer{
     grid-template-columns: max-content 1fr max-content 1fr max-content 1fr max-content;
     gap: 30px;
     align-items: center;
+    margin-top: 2px;
 }
 
 .processTracker .unittracker{
@@ -1497,4 +1616,45 @@ footer{
     border: 1px solid transparent;
     color: white;
     background-color: gray;
+}
+
+/****** STYLING FOR ORDER SUCESS MIDDLE SECTION IS HERE******/
+
+.orderSucessSect{
+    width: 100%;
+    padding: 3em var(--large-inline-padding);
+    display: grid;
+    place-items: center;
+    background-color: white;
+}
+
+.orderSuccessCntn{
+    width: 100%;
+    padding: 3em 30px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+}
+.orderSuccessCntn h1{
+    font-weight: 4em;
+    color: var(--dark-text-clr);
+    font-weight: 400;
+    text-align: center;
+    width: 100%;
+}
+.orderSuccessCntn img{
+    width: 150px;
+    aspect-ratio: 1;
+    object-fit: contain;
+    object-position: center;
+}
+.orderSuccessCntn p{
+    font-weight: 1.05em;
+    color: var(--dark-text-clr);
+    font-weight: 400;
+    text-align: center;
+    width: 100%;
 }

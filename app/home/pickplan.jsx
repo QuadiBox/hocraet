@@ -9,6 +9,7 @@ const Pickplan = ({cartAdder}) => {
     const [pickFormat, setPickFormat] = useState("diy");
     const [selectMeia, setSelectedMedia] = useState("Instagram");
     const [selectPlan, setSelectPlan] = useState("basic");
+    const [orderCount, setorderCount] = useState(0);
 
     const [cartItems, setCartItems] = useState([]);
 
@@ -27,6 +28,20 @@ const Pickplan = ({cartAdder}) => {
         // Cleanup the listener on component unmount
         return () => fetchCartItems();
     }, [isLoaded, isSignedIn]);
+
+    // useEffect(() => {
+    //     const fetchCartItems = onSnapshotWithCondition(
+    //       'carts', 
+    //       'mail', 
+    //       `${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`, 
+    //       (documents) => {
+    //         setCartItems(documents)
+    //       }
+    //     );
+      
+    //     // Cleanup the listener on component unmount
+    //     return () => fetchCartItems();
+    // }, [isLoaded, isSignedIn]);
 
 
     const [cartObject, setCartObject] = useState({

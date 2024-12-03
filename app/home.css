@@ -2013,20 +2013,16 @@ footer{
     }
 
     .planTypeCntn{
-        min-height: max-content;
+        min-height: max-content !important;
     }
     .planTypeCntn::-webkit-scrollbar{
         display: none;
     }
     
     .unitPlanType{
-        display: grid;
-        grid-template-columns: 1fr max-content;
-        gap: 15px;
-        padding: 25px;
-        background-color: #f4f4f4;
-        border-radius: 9px;
-        min-height: max-content;
+
+        min-height: fit-content !important;
+        max-height: max-content !important;
         height: 100%;
         cursor: pointer;
     }

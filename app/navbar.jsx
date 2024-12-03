@@ -174,22 +174,24 @@ const Navbar = () => {
                 <Link href={"/#services"}>Services</Link>
                 <Link href={"/pick_a_plan"}>Pricing</Link>
                 <Link href={"/#review"}>Review</Link>
-                <div className="profileAnShii">
-                    <div onClick={() => {setshowMenuExtra(prev => !prev)}} id="pfpMobileBtn" type="button" className="special">
-                        <img src={user?.imageUrl} alt="profile image" />
-                        <h4>{user?.fullName}</h4>
-                        <i style={{transform:`${showMenuExtra ? "rotate(180deg)" : "rotate(0deg)"}`}} className="icofont-caret-down"></i>
-                    </div>
+                <SignedIn>
+                    <div className="profileAnShii">
+                        <div onClick={() => {setshowMenuExtra(prev => !prev)}} id="pfpMobileBtn" type="button" className="special">
+                            <img src={user?.imageUrl} alt="profile image" />
+                            <h4>{user?.fullName}</h4>
+                            <i style={{transform:`${showMenuExtra ? "rotate(180deg)" : "rotate(0deg)"}`}} className="icofont-caret-down"></i>
+                        </div>
 
-                    {
-                        showMenuExtra && (
-                            <div className="extra">
-                                <Link href={"/dashboard"}><img src={"/dashboard.png"} alt="profile image" /> Dashboard</Link>
-                                <button onClick={openCart} type="button"><i className="icofont-cart"></i> Cart ({cartItems?.length})</button>
-                            </div>
-                        )
-                    }
-                </div>
+                        {
+                            showMenuExtra && (
+                                <div className="extra">
+                                    <Link href={"/dashboard"}><img src={"/dashboard.png"} alt="profile image" /> Dashboard</Link>
+                                    <button onClick={openCart} type="button"><i className="icofont-cart"></i> Cart ({cartItems?.length})</button>
+                                </div>
+                            )
+                        }
+                    </div>
+                </SignedIn>
             </div>
 
         </>

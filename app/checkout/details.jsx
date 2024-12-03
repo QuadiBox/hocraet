@@ -93,8 +93,11 @@ const Details = () => {
       `${user?.id}`, 
       (documents) => {
         setCartItems(documents)
+        console.log(documents);
       }
     );
+
+    
   
     // Cleanup the listener on component unmount
     return () => fetchCartItems();

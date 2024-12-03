@@ -163,14 +163,14 @@ body, main{
 .mobileMenu{
     width: 100%;
     background-color: var(--orange-text-clr);
-    height: 100%;
+    height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 150;
 
     transition: transform 0.4s ease;
-    padding: var(--nav-height) 2em;
+    padding: calc(var(--nav-height) + 30px) 2em;
 
     display: flex;
     flex-direction: column;
@@ -1639,6 +1639,7 @@ footer{
     align-items: center;
     justify-content: space-between;
     margin-top: 40px;
+    overflow-x: auto;
 }
 
 .platformSelectors button{
@@ -1675,6 +1676,9 @@ footer{
     overflow-x: auto;
 }
 .selectionDetail::-webkit-scrollbar{
+    display: none;
+}
+.platformSelectors::-webkit-scrollbar{
     display: none;
 }
 .selectionDetail.DIY{
@@ -2007,6 +2011,25 @@ footer{
     .confirmGrandCntn.special .confirmCntn{
         display: none !important;
     }
+
+    .planTypeCntn{
+        min-height: max-content;
+    }
+    .planTypeCntn::-webkit-scrollbar{
+        display: none;
+    }
+    
+    .unitPlanType{
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        gap: 15px;
+        padding: 25px;
+        background-color: #f4f4f4;
+        border-radius: 9px;
+        min-height: max-content;
+        height: 100%;
+        cursor: pointer;
+    }
     .checkoutDetails{
         width: 100%;
         display: flex;
@@ -2028,5 +2051,10 @@ footer{
 
     .orderSuccessCntn img{
         width: 80px;
+    }
+
+    .platformSelectors button{
+        min-width: 55px;
+        aspect-ratio: 1;
     }
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useSearchParams } from 'next/navigation';
-import { addDocument, deleteDocument, fetchDocumentWithCondition } from '../db/firestoreService';
+import { addDocument, deleteDocument, fetchDocumentsWithCondition, fetchDocumentWithCondition } from '../db/firestoreService';
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -44,7 +44,7 @@ const Details = () => {
                 for (const elem of cartItems) {
                     await deleteDocument("carts", elem.id);
                 }
-                setComplete(true)
+                setComplete(true);
                 // Log a message after both processes are complete
                 console.log("All cart items processed and deleted.");
 
@@ -55,35 +55,14 @@ const Details = () => {
     }, [cartItems]);
 
     useEffect(() => {
-        const fecthCart = fetchDocumentWithCondition(
-            "carts",
-            "u_id",
-            `${user?.id}`,
-        )
-
-        const processCartItems = async () => {
-            if (reference && cartItems) {
-                // Add documents to the "requests" collection
-                for (const elem of cartItems) {
-                    const todb = { ...elem, ...checkoutObject };
-                    await addDocument("requests", todb);
-                }
-    
-                // Delete documents from the "carts" collection
-                for (const elem of cartItems) {
-                    await deleteDocument("carts", elem.id);
-                }
-                setComplete(true)
-                // Log a message after both processes are complete
-                console.log("All cart items processed and deleted.");
-
-            }
-        };
-        
-        if (fecthCart) {
-            processCartItems();
+        const fectItems = async () => {
+            const items = await fetchDocumentsWithCondition("carts", "u_id", `${user?.id}`);
+            
+            setCartItems(items)
         }
-      
+
+        fectItems();
+    
     }, [isLoaded, isSignedIn]);
 
     return (

@@ -41,6 +41,37 @@ export const fetchDocumentWithCondition = async (collectionName, field, value) =
   }
 };
 
+
+/**
+ * Fetch all documents with a specific condition.
+ * @param {string} collectionName - The name of the collection to fetch from.
+ * @param {string} field - The field to apply the condition to.
+ * @param {string} value - The value to match the field against.
+ * @returns {Promise<Array<Object>>} - A promise that resolves to an array of matching documents.
+ */
+export const fetchDocumentsWithCondition = async (collectionName, field, value) => {
+  try {
+    const colRef = collection(db, collectionName);
+    const q = query(colRef, where(field, "==", value));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      return [];
+    }
+
+    // Map through all matching documents and create an array
+    const documents = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return documents;
+  } catch (error) {
+    console.error("Error fetching documents: ", error);
+    throw new Error(error.message);
+  }
+};
+
 /**
  * Fetch a single document by its ID.
  * @param {string} collectionName - The name of the collection to fetch from.

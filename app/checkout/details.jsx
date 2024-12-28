@@ -152,6 +152,7 @@ const Details = () => {
     setnairaRate(newNiraRate);
   }, []);
 
+  //alternative paystack paystack that utilizes the backend api coordination
   const initializeTransaction = async (vlad, clad) => {
     const options = {
       method: 'POST',

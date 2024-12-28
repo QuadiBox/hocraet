@@ -1,69 +1,14 @@
-'use client'
 
 import { useSearchParams } from 'next/navigation';
-import { addDocument, deleteDocument, fetchDocumentsWithCondition, fetchDocumentWithCondition } from '../db/firestoreService';
-import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { onSnapshotWithCondition } from '../db/firestoreService';
 
 
 
 const Details = () => {
     const searchParams = useSearchParams();
-    const [cartItems, setCartItems] = useState([]);
-    const [complete, setComplete] = useState(false);
-
-    const { isLoaded, isSignedIn, user} = useUser();
 
     const reference = searchParams.get('reference');
 
-    const checkoutObject = {
-        progress: {
-            likes: [],
-            reposts: [],
-            comments: [],
-            views: [],
-            saves: [],
-            follows: [],
-            subscribers: [],
-        },
-        status: "pending"
-    }
-
-    useEffect(() => {
-        const processCartItems = async () => {
-            if (cartItems) {
-                // Add documents to the "requests" collection
-                for (const elem of cartItems) {
-                    const todb = { ...elem, ...checkoutObject };
-                    await addDocument("requests", todb);
-                }
-    
-                // Delete documents from the "carts" collection
-                for (const elem of cartItems) {
-                    await deleteDocument("carts", elem.id);
-                }
-                setComplete(true);
-                // Log a message after both processes are complete
-                console.log("All cart items processed and deleted.");
-
-            }
-        };
-    
-        processCartItems();
-    }, [cartItems]);
-
-    useEffect(() => {
-        const fectItems = async () => {
-            const items = await fetchDocumentsWithCondition("carts", "u_id", `${user?.id}`);
-            
-            setCartItems(items)
-        }
-
-        fectItems();
-    
-    }, [isLoaded, isSignedIn]);
 
     return (
         <section className="orderSucessSect">

@@ -69,9 +69,10 @@ const Pickplan = ({cartAdder}) => {
         order_id: 0,
         userData: {
             fullname: user?.fullName,
-            email: user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress,
+            email: user?.emailAddresses[0]?.emailAddress,
             id: user?.id,
             phone: user?.phoneNumbers[0] || '',
+            image: user?.imageUrl
         }
     })
 
@@ -338,7 +339,7 @@ const Pickplan = ({cartAdder}) => {
         }
     }
 
-    const handleAddToCart = (e) => {
+    const handleAddToCart = async (e) => {
         e.preventDefault();
         const userData = {
             fullname: user?.fullName,

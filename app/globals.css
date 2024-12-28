@@ -19,6 +19,10 @@
   --orange-text-clr: #EE9F0C;
   --dark-text-clr: #000000;
 
+  --input-field: #F6F6F6;
+  --gen-border-clr: #D0D0D0;
+
+
   --font-urb: var(--font-u);
 }
 
@@ -47,6 +51,18 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button{
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+input{
+  background-color: var(--input-field);
+  border: 1px solid var(--gen-border-clr);
 }
 
 @media screen and (max-width: 600px) {

@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import "./home.css";
 import "./signup.css";
+import "./dashboard.css";
 import "../icofont/icofont.min.css"
 
 import { ClerkProvider } from "@clerk/nextjs";

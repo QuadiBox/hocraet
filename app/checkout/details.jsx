@@ -3,37 +3,44 @@
 import Link from "next/link";
 import { useState, useEffect } from "react"
 import { useUser } from "@clerk/nextjs";
-import { onSnapshotWithCondition } from "../db/firestoreService";
+import { addDocument, deleteDocument, fetchDocumentsWithCondition } from "../db/firestoreService";
 import { PaystackButton } from 'react-paystack';
 import { useRouter } from 'next/navigation'
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 
 const Details = () => {
   const [cartItems, setCartItems] = useState([]);
   const [showCount, setshowCount] = useState(3);
   const [nairaRate, setnairaRate] = useState(0);
+  const [showPaymentWidget, setShowPaymentWidget] = useState(false);
 
   const router = useRouter();
 
   const base_url = process.env.NEXT_PUBLIC_BASE_URL
 
-
   const { isLoaded, isSignedIn, user } = useUser();
+
+  //object to be addded to cart object to monitor progress, status and location
+  const checkoutObject = {
+    progress: {
+        likes: [],
+        reposts: [],
+        comments: [],
+        views: [],
+        saves: [],
+        follows: [],
+        subscribers: [],
+    },
+    status: "pending"
+ }
 
   const filteredList = cartItems.filter((elem, idx) => idx <= showCount);
 
   const twoWeeksInMilliseconds = 2 * 7 * 24 * 60 * 60 * 1000;
   let futureDate = new Date();
 
-  const deliveryDate = new Intl.DateTimeFormat('en-US', {
-    weekday: 'short',   // Mon
-    day: 'numeric',     // 8
-    month: 'short',     // Feb
-    year: 'numeric',    // 2024
-    hour: 'numeric',    // 8
-    minute: '2-digit',  // 50
-    hour12: true        // pm/am format
-  }).format(futureDate)
+  const deliveryDate = new Intl.DateTimeFormat('en-US', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true }).format(futureDate)
   // const deliveryDate = "Mond 4 30 2024"
 
   // Using reduce to calculate the total amount
@@ -41,6 +48,7 @@ const Details = () => {
     return sum + parseInt(item.amount, 10); // Convert amount to integer and add to sum
   }, 0);
 
+  //paystack widget configuration
   const config = {
     reference: (new Date()).getTime().toString(),
     email: `${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`,
@@ -48,9 +56,17 @@ const Details = () => {
     publicKey: 'pk_test_680463a03d8cd455d731195ceb8835ce288d94e9',
   };
 
-  const handlePaystackSuccessAction = (reference) => {
+  //paypal SDK script options
+  const paypalConfig = {
+    clientId: "AfFmkHQFORL9h3KGgSB3aXPMPLWs0em2zGzBMM0X2mEnHVYQ53RZhQSR8GYNC-18ngxbsW8rrZZo1g1x",
+    currency: "USD",
+    intent: "capture",
+  };
+
+  //action for when the paystack widget payment goes through successfully
+  const handlePaystackSuccessAction = async (reference) => {
     // Implementation for whatever you want to do with reference and after success call.
-    console.log(reference);
+    await handleRequestProcessAfterPayment();
     router.push("/request_complete");
   };
 
@@ -62,9 +78,42 @@ const Details = () => {
 
   const componentProps = {
     ...config,
-    text: 'Checkout',
+    text: 'Pay with Paystack',
     onSuccess: (reference) => handlePaystackSuccessAction(reference),
     onClose: handlePaystackCloseAction,
+  };
+
+  const handleRequestProcessAfterPayment = async () => {
+    const response = await fetch('/api/get-location'); // Defaults to GET
+    const data = await response.json();
+
+    const locationData = data || {
+      ip: "197.211.53.80",
+      city: "Lagos",
+      region: "Lagos",
+      country: "NG",
+      loc: "6.4541,3.3947",
+      org: "AS37148 Globacom Limited",
+      timezone: "Africa/Lagos"
+    }
+
+    setShowPaymentWidget(false);
+
+    if (cartItems) {
+        // Add documents to the "requests" collection
+        for (const elem of cartItems) {
+            const todb = { ...elem, ...checkoutObject, locationData };
+            await addDocument("requests", todb);
+        }
+
+        // Delete documents from the "carts" collection
+        for (const elem of cartItems) {
+            await deleteDocument("carts", elem.id);
+        }
+        // Log a message after both processes are complete
+        console.log("All cart items processed and deleted.");
+
+    }
   };
 
 
@@ -86,21 +135,16 @@ const Details = () => {
   };
 
 
+  //fecthes all items in the cart that belongs to the current user, using the u_id for matching
   useEffect(() => {
-    const fetchCartItems = onSnapshotWithCondition(
-      'carts', 
-      'u_id', 
-      `${user?.id}`, 
-      (documents) => {
-        setCartItems(documents)
-        console.log(documents);
-      }
-    );
+    const fectItems = async () => {
+      const items = await fetchDocumentsWithCondition("carts", "u_id", `${user?.id}`);
+      
+      setCartItems(items)
+    }
 
-    
+    fectItems();
   
-    // Cleanup the listener on component unmount
-    return () => fetchCartItems();
   }, [isLoaded, isSignedIn]);
 
   useEffect(() => {
@@ -138,6 +182,23 @@ const Details = () => {
       console.error('Error:', error);
     }
   };
+
+  const checkLocation = async () => {
+    const response = await fetch('/api/get-location'); // Defaults to GET
+    const data = await response.json();
+
+    const locationData = data || {
+      ip: "197.211.53.80",
+      city: "Lagos",
+      region: "Lagos",
+      country: "NG",
+      loc: "6.4541,3.3947",
+      org: "AS37148 Globacom Limited",
+      timezone: "Africa/Lagos"
+    }
+
+    console.log(locationData);
+  }
 
 
   return (
@@ -206,9 +267,7 @@ const Details = () => {
           }
 
         </div>
-        <PaystackButton {...componentProps}></PaystackButton>
-        {/* <button onClick={() => {initializeTransaction(`${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`, `${(totalAmount + (totalAmount * 0.02)) * 100 * 1650}`)}}>Checkout</button> */}
-
+        <button className="blueBtn" onClick={() => {checkLocation()}}>Checkout</button>
       </div>
       <div className="checkoutDetails">
         <h2>Checkout Details</h2>
@@ -226,7 +285,43 @@ const Details = () => {
         </div>
       </div>
       
-      <button className="blueBtn mobileOnly" onClick={() => {initializeTransaction(`${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`, `${(totalAmount + (totalAmount * 0.02)) * 100 * 1650}`)}}>Checkout</button>
+      <button className="blueBtn mobileOnly" onClick={() => {setShowPaymentWidget(true)}}>Checkout</button>
+      {/* <button className="blueBtn mobileOnly" onClick={() => {initializeTransaction(`${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`, `${(totalAmount + (totalAmount * 0.02)) * 100 * 1650}`)}}>Checkout</button> */}
+
+
+      {
+        showPaymentWidget && (
+          <div className="paymentWidgetCntn">
+            <div className="paymentWidget">
+              <PaystackButton {...componentProps}></PaystackButton>
+              <PayPalScriptProvider options={paypalConfig}>
+                  <PayPalButtons 
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              value: totalAmount + (totalAmount * 0.02), // Use the specified amount here
+                            },
+                          },
+                        ],
+                      });
+                    }}
+                    onApprove={(data, actions) => {
+                      return actions.order.capture().then((details) => {
+                        handleRequestProcessAfterPayment();
+                        router.push("/request_complete");
+                      });
+                    }}
+                    onError={(err) => {
+                      console.error("PayPal Checkout error:", err);
+                    }}
+                  />
+              </PayPalScriptProvider>
+            </div>
+          </div>
+        )
+      }
 
     </div>
   )

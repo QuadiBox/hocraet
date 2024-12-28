@@ -355,7 +355,7 @@ body, main{
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: #282f398e;
     backdrop-filter: blur(6px);
 
@@ -1997,6 +1997,71 @@ footer{
     text-align: center;
     width: 100%;
 }
+
+.paymentWidgetCntn{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1002;
+    background-color: #53535360;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 30px;
+}
+
+.paymentWidget{
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    padding-block: 30px 20px;
+    overflow: auto;
+    /* overflow-y: auto;
+    overflow-x: hidden; */
+    overscroll-behavior-y: contain; 
+    overscroll-behavior-block: contain; 
+    max-width: 600px;
+    width: 100%;
+    min-height: 200px;
+    max-height: 90vh;
+}
+
+.paymentWidget > * {
+    width: 100%;
+}
+.paymentWidget > button {
+    padding-inline: 1.9em;
+    margin-inline: auto;
+    transform: translateY(-50%);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 0.97em;
+    font-weight: 600;
+    color: white;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+
+    height: 66px;
+    width: 100%;
+    min-width: max-content;
+    margin-top: 3em;
+    padding-block: 15px;
+
+    background: linear-gradient(180deg, #0761AB 68.34%, #054478 136.17%, #032745 204%);
+}
+
+.paymentWidget > div {
+    max-height: 90vh;
+}
+
 
 @media screen and (max-width: 600px) {
     .confirmGrandCntn.special{

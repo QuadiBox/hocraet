@@ -1,10 +1,11 @@
 'use client'
+
 import { fetchAllDocuments, onSnapshotWithoutCondition } from "@/app/db/firestoreService";
 import Link from "next/link";
 import { useState, useEffect } from "react"
 // import { useUser } from "@clerk/nextjs";
 
-const page = () => {
+const Page = () => {
     const [totalNum, setTotalNum] = useState(0);
 
     // this is to show the amount of results increment per page
@@ -106,7 +107,7 @@ const page = () => {
                                 <p>
                                     {
                                         requests.filter((element) => element?.u_id === elem?.id).filter((unit, idx) => idx <= 4).map((elem, idx) => (
-                                            <img src={`/${elem?.platform}.png`} alt={`${elem?.platform}`} />
+                                            <img key={`clientimg_${elem?.u_id}`} src={`/${elem?.platform}.png`} alt={`${elem?.platform}`} />
                                         ))
                                     }
                                 </p>
@@ -205,7 +206,7 @@ const page = () => {
                                             <div className="platformList">
                                                 {
                                                     requests.filter((element) => element?.u_id === widgetData?.id).filter((unit, idx) => idx <= 4).map((elem, idx) => (
-                                                        <img src={`/${elem?.platform}.png`} alt={`${elem?.platform}`} />
+                                                        <img key={`clientwidget_${elem?.u_id}`} src={`/${elem?.platform}.png`} alt={`${elem?.platform}`} />
                                                     ))
                                                 }
                                             </div>
@@ -300,4 +301,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page

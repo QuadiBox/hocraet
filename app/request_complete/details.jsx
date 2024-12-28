@@ -1,13 +1,8 @@
-import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 
 
 const Details = () => {
-    const searchParams = useSearchParams();
-
-    const reference = searchParams.get('reference');
-
 
     return (
         <section className="orderSucessSect">

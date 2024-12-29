@@ -184,22 +184,6 @@ const Details = () => {
     }
   };
 
-  const checkLocation = async () => {
-    const response = await fetch('/api/get-location'); // Defaults to GET
-    const data = await response.json();
-
-    const locationData = data || {
-      ip: "197.211.53.80",
-      city: "Lagos",
-      region: "Lagos",
-      country: "NG",
-      loc: "6.4541,3.3947",
-      org: "AS37148 Globacom Limited",
-      timezone: "Africa/Lagos"
-    }
-
-    console.log(locationData);
-  }
 
 
   return (
@@ -268,7 +252,7 @@ const Details = () => {
           }
 
         </div>
-        <button className="blueBtn" onClick={() => {checkLocation()}}>Checkout</button>
+        <button className="blueBtn" onClick={() => {setShowPaymentWidget(true)}}>Checkout</button>
       </div>
       <div className="checkoutDetails">
         <h2>Checkout Details</h2>
@@ -294,6 +278,7 @@ const Details = () => {
         showPaymentWidget && (
           <div className="paymentWidgetCntn">
             <div className="paymentWidget">
+              <span onClick={() => {setShowPaymentWidget(false)}}><i className="icofont-close-line"></i></span>
               <PaystackButton {...componentProps}></PaystackButton>
               <PayPalScriptProvider options={paypalConfig}>
                   <PayPalButtons 
@@ -308,11 +293,16 @@ const Details = () => {
                         ],
                       });
                     }}
-                    onApprove={(data, actions) => {
-                      return actions.order.capture().then((details) => {
-                        handleRequestProcessAfterPayment();
+                    onApprove={async (data, actions) => {
+                      try {
+                        // handle the request formatting and update db data
+                        await handleRequestProcessAfterPayment();
+              
+                        // Navigate to the new route after async function completes
                         router.push("/request_complete");
-                      });
+                      } catch (error) {
+                        console.error("Error during approval:", error);
+                      }
                     }}
                     onError={(err) => {
                       console.error("PayPal Checkout error:", err);

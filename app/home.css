@@ -2032,8 +2032,19 @@ footer{
     max-height: 90vh;
 }
 
-.paymentWidget > * {
-    width: 100%;
+.paymentWidget > span {
+    width: 40px;
+    aspect-ratio: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    font-size: 1.7em;
+    color: var(--dark-text-clr);
+    border: 1px solid var(--dark-text-clr);
+    background-color: transparent;
+    border-radius: 5px;
+    cursor: pointer;
 }
 .paymentWidget > button {
     padding-inline: 1.9em;
@@ -2060,6 +2071,7 @@ footer{
 
 .paymentWidget > div {
     max-height: 90vh;
+    width: 100%;
 }
 
 

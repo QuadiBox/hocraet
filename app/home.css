@@ -2115,7 +2115,7 @@ footer{
         background-color: red !important;
     }
 
-    .unitPlanType{
+    /* .unitPlanType{
         display: grid;
         grid-template-columns: 1fr max-content;
         gap: 15px;
@@ -2125,7 +2125,7 @@ footer{
         min-height: 200px;
         height: 100%;
         cursor: pointer;
-    }
+    } */
     .checkoutDetails{
         width: 100%;
         display: flex;

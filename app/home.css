@@ -1557,7 +1557,6 @@ footer{
 .planTypeCntn{
     width: 100%;
     overflow-x: auto;
-    overflow-y: hidden;
     display: grid;
     align-items: center;
     gap: 20px;
@@ -2096,18 +2095,11 @@ footer{
         min-height: 190px;
         margin-block: 20px;
         background-color: plum;
+        align-items: top;
+        overflow-x: auto;
+        /* overflow-y: hidden; */
     }
 
-    /* .planTypeCntn{
-        width: 100%;
-        overflow-x: auto;
-        overflow-y: hidden;
-        display: grid;
-        align-items: center;
-        gap: 20px;
-        grid-template-columns: repeat(3, minmax(300px, 1fr));
-        margin-block: 2em;
-    } */
     .planTypeCntn::-webkit-scrollbar{
         display: none;
     }
@@ -2117,6 +2109,18 @@ footer{
         min-height: fit-content;
         height: 100px;
         max-height: 150px;
+        cursor: pointer;
+    }
+
+    .unitPlanType{
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        gap: 15px;
+        padding: 25px;
+        background-color: #f4f4f4;
+        border-radius: 9px;
+        min-height: 200px;
+        height: 100%;
         cursor: pointer;
     }
     .checkoutDetails{

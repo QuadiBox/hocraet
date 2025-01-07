@@ -51,12 +51,12 @@ const Details = () => {
     reference: (new Date()).getTime().toString(),
     email: `${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`,
     amount: (totalAmount + (totalAmount * 0.02)) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-    publicKey: `${process.env.PAYSTACK_PUBLIC_KEY}`,
+    publicKey: 'pk_test_680463a03d8cd455d731195ceb8835ce288d94e9',
   };
 
   //paypal SDK script options
   const paypalConfig = {
-    clientId: `${process.env.PAYPAL_CLIENT_ID}`,
+    clientId: 'AfFmkHQFORL9h3KGgSB3aXPMPLWs0em2zGzBMM0X2mEnHVYQ53RZhQSR8GYNC-18ngxbsW8rrZZo1g1x',
     currency: "USD",
     intent: "capture",
   };

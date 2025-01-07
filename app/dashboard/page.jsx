@@ -162,11 +162,11 @@ const Page = async () => {
                         </div>
                     </div>
                     <div className="doughnutChart">
-                        <h2>Latest requests ({totalPendingTasks?.length})</h2>
+                        <h2>Latest requests ({tasks_from_db?.length})</h2>
                         <div className="requestsList">
                             {
                                 tasks_from_db?.length > 0 ? (
-                                    tasks_from_db?.map((elem, idx) => (
+                                    tasks_from_db.sort((a,b) => new Date(b?.date) - new Date(a?.date))?.map((elem, idx) => (
                                         <div className="unitrequest" key={`latestTasks${idx}`}>
                                             <img src={ elem?.image ? elem?.image : "/success.png"} alt="profile picture" />
                                             <div className="center">

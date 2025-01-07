@@ -7,12 +7,15 @@ export async function GET(req) {
   try {
     const response = await fetch(`https://ipinfo.io/${ip}?token=${apiKey}`);
     if (!response.ok) {
+      console.log('error while trying to fetch you data');
+      
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-
+    console.log('data fetched succesfully', data);
     return NextResponse.json({...data});
   } catch (error) {
+    console.error('error bad request', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

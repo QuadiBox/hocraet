@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SignOutButton } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
+import NavButton from "./navButton";
 
 
 export default async function RootLayout({ children }) {
@@ -10,7 +11,7 @@ export default async function RootLayout({ children }) {
     return (
         <div className="dashboardGrandCntn">
             
-            <nav>
+            <nav className="thedashBoardNav">
                 <Link href={"/"}><img src="/nav_logo.png" alt="Hocreat logo" /></Link>
                 <div className="linkList">
                     <Link className="one" href={"/dashboard"}><i className="icofont-ghost"></i>Overview</Link>
@@ -23,7 +24,9 @@ export default async function RootLayout({ children }) {
                     {/* <button type="button">Log out</button> */}
                 </div>
 
+
             </nav>
+            <NavButton></NavButton>
                 
             <main className='dashboardCntn'>
                 <div className="header">

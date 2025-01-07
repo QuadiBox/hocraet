@@ -1587,24 +1587,24 @@ footer{
     flex-direction: column;
     gap: 20px;
 }
-.unitPlanType .right h3{
-    font-size: 0.99em;
+.unitPlanType.pickPlan .right h3{
+    font-size: 1.2em;
     font-weight: 500;
     color: var(--dark-text-clr);
 }
-.unitPlanType .right p{
+.unitPlanType.pickPlan .right p{
     font-size: 0.98em;
     font-weight: 400;
     color: gray;
 }
-.unitPlanType .right h2{
+.unitPlanType.pickPlan .right h2{
     font-size: 1.19em;
     font-weight: 400;
     color: var(--dark-text-clr);
     margin-top: auto;
 }
-.unitPlanType .right h2 b{
-    font-size: 1.99em;
+.unitPlanType.pickPlan .right h2 b{
+    font-size: 2.1em;
     font-weight: 500;
 }
 .unitPlanType .platformList {
@@ -1637,7 +1637,7 @@ footer{
     display: flex;
     gap: 30px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 40px;
     overflow-x: auto;
 }
@@ -1728,6 +1728,7 @@ footer{
     color: var(--dark-text-clr);
     font-size: 1.12em;
     font-weight: 500;
+    text-transform: capitalize;
 
     margin-bottom: calc(var(--body-height) + 7px);
 }
@@ -2098,9 +2099,9 @@ footer{
     
     .unitPlanType{
 
-        min-height: fit-content !important;
-        max-height: max-content !important;
-        height: 100%;
+        min-height: fit-content;
+        height: 100px;
+        max-height: 150px;
         cursor: pointer;
     }
     .checkoutDetails{

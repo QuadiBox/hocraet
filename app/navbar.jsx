@@ -14,9 +14,6 @@ const Navbar = () => {
 
     const [showMenuExtra, setshowMenuExtra] = useState(false);
 
-
-
-
     const [cartItems, setCartItems] = useState([]);
 
     const { isLoaded, isSignedIn, user} = useUser();
@@ -30,58 +27,38 @@ const Navbar = () => {
         setShowCart(false);
     }
 
-    useEffect(() => {
-        const fetchCartItems = onSnapshotWithCondition(
-          'carts', 
-          'u_id', 
-          `${user?.id}`, 
-          (documents) => {
-            setCartItems(documents)
-          }
-        );
-      
-        // Cleanup the listener on component unmount
-        return () => fetchCartItems();
-    }, [isLoaded, isSignedIn]);
 
     useEffect(() => {
-        const fetchCartItems = onSnapshotWithoutCondition(
-          'orders', 
-          (documents) => {
-            setorderCount(documents[0])
-          }
-        );
-      
-        // Cleanup the listener on component unmount
-        return () => fetchCartItems();
+        if (isLoaded && isSignedIn) {
+            const fetchCartItems = onSnapshotWithCondition(
+                'carts', 
+                'u_id', 
+                `${user?.id}`, 
+                (documents) => {
+                    setCartItems(documents)
+                }
+            );
+        
+            // Cleanup the listener on component unmount
+            return () => fetchCartItems();
+        }
+    }, [isLoaded, isSignedIn, user?.id]);
+
+
+    useEffect(() => {
+        if (isLoaded && isSignedIn) {
+            const fetchOrders = onSnapshotWithoutCondition('orders', (documents) => {
+                if (documents?.[0] !== orderCount) {
+                    setorderCount(documents[0]);
+                }
+            });
+
+            return () => fetchOrders();
+        }
     }, [isLoaded, isSignedIn]);
       
 
-    // useEffect(() => {
-    //     const targetElement = document.querySelector('.navCntn');
     
-    //     function handleScroll(e) {
-    //         // Add your scrolling logic here
-    //         const allElements = container?.children;
-    //         if (e.target.className === "prevScrollBtn" || e.target.className === "icofont-rounded-left") {
-    //             if (currentOne > 1) {
-    //                 setCurrentOne(prev => prev - 1);
-    //                 scrollToCenterElement(allElements[currentOne - 2]);  
-    //             }
-    //         } else if (e.target.className === "nextScrollBtn" || e.target.className === "icofont-rounded-right") {
-    //             if (currentOne < totalReviews) {
-    //                 setCurrentOne(prev => prev + 1);
-    //                 scrollToCenterElement(allElements[currentOne - 2]);  
-    //             }
-    //         }
-    //     }
-    
-    //     targetElement?.addEventListener("click", handleScroll);
-    
-    //     return () => {
-    //         targetElement?.removeEventListener("click", handleScroll);
-    //     };
-    // }, []);
     return (
         <>
             <nav className="navCntn">
@@ -111,7 +88,7 @@ const Navbar = () => {
                         {
                             showDropdown && (
                                 <ul className="navdropdown">
-                                    <li><a href="#">Dashboard</a></li>
+                                    <li><a href="/dashboard">Dashboard</a></li>
                                     <li><button type="button" onClick={openCart}>Cart <span>{cartItems?.length}</span></button></li>
                                     <li><SignOutButton></SignOutButton></li>
                                 </ul>
@@ -149,13 +126,11 @@ const Navbar = () => {
                                                     <p>Likes: <span>{elem?.planData?.likes}</span></p>
                                                     <p>Reposts: <span>{elem?.planData?.reposts}</span></p>
                                                     <p>Comments: <span>{elem?.planData?.comments}</span></p>
-                                                    <p>Views: <span>{elem?.planData?.views}</span></p>
-                                                    <p>Saves: <span>{elem?.planData?.saves}</span></p>
+                                                    <p>Shares: <span>{elem?.planData?.shares}</span></p>
                                                     <p>Follows: <span>{elem?.planData?.follows}</span></p>
-                                                    <p>Subscribers: <span>{elem?.planData?.subscribers}</span></p>
                                                 </div>
                                                 <div className="amountShii">
-                                                    <h3>Amount: $<span>{elem?.amount}</span></h3>
+                                                    <h3>Amount: NGN<span>{elem?.amount}</span></h3>
                                                     
                                                     <button onClick={() => {deleteDocument("carts", elem?.id)}}>Remove from cart</button>
                                                 </div>
@@ -170,10 +145,10 @@ const Navbar = () => {
                 }
             </nav>
             <div className="mobileMenu" style={{transform: `${openMenu ? "translateX(0%)": 'translateX(100%)'}`}}>
-                <Link href={"/"}>Home</Link>
-                <Link href={"/#services"}>Services</Link>
-                <Link href={"/pick_a_plan"}>Pricing</Link>
-                <Link href={"/#review"}>Review</Link>
+                <Link onClick={() => {setopenMenu(false)}} href={"/"}>Home</Link>
+                <Link onClick={() => {setopenMenu(false)}} href={"/#services"}>Services</Link>
+                <Link onClick={() => {setopenMenu(false)}} href={"/pick_a_plan"}>Pricing</Link>
+                <Link onClick={() => {setopenMenu(false)}} href={"/#review"}>Review</Link>
                 <SignedIn>
                     <div className="profileAnShii">
                         <div onClick={() => {setshowMenuExtra(prev => !prev)}} id="pfpMobileBtn" type="button" className="special">

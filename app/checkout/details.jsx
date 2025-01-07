@@ -26,11 +26,9 @@ const Details = () => {
     progress: {
         likes: [],
         reposts: [],
-        comments: [],
-        views: [],
-        saves: [],
         follows: [],
-        subscribers: [],
+        views: [],
+        shares: [],
     },
     status: "pending"
  }
@@ -52,13 +50,13 @@ const Details = () => {
   const config = {
     reference: (new Date()).getTime().toString(),
     email: `${user?.emailAddresses[user?.emailAddresses.length - 1].emailAddress}`,
-    amount: (totalAmount + (totalAmount * 0.02)) * 100 * 1650, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
-    publicKey: 'pk_test_680463a03d8cd455d731195ceb8835ce288d94e9',
+    amount: (totalAmount + (totalAmount * 0.02)) * 100, //Amount is in the country's lowest currency. E.g Kobo, so 20000 kobo = N200
+    publicKey: `${process.env.PAYSTACK_PUBLIC_KEY}`,
   };
 
   //paypal SDK script options
   const paypalConfig = {
-    clientId: "AfFmkHQFORL9h3KGgSB3aXPMPLWs0em2zGzBMM0X2mEnHVYQ53RZhQSR8GYNC-18ngxbsW8rrZZo1g1x",
+    clientId: `${process.env.PAYPAL_CLIENT_ID}`,
     currency: "USD",
     intent: "capture",
   };
@@ -83,11 +81,12 @@ const Details = () => {
     onClose: handlePaystackCloseAction,
   };
 
+
   const handleRequestProcessAfterPayment = async () => {
     const response = await fetch('/api/get-location'); // Defaults to GET
     const data = await response.json();
 
-    const locationData = data || {
+    const locationData = data?.country ? data : {
       ip: "197.211.53.80",
       city: "Lagos",
       region: "Lagos",
@@ -231,20 +230,16 @@ const Details = () => {
                   <p>Likes</p>
                   <p>Reposts</p>
                   <p>Comments</p>
-                  <p>Views</p>
-                  <p>Saves</p>
+                  <p>Shares</p>
                   <p>Follows</p>
-                  <p>Subscribers</p>
                 </div>
                 <div className={`unitdetail`}>
                   <h3>{elem?.plan}</h3>
                   <p>{elem?.planData?.likes}</p>
                   <p>{elem?.planData?.reposts}</p>
                   <p>{elem?.planData?.comments}</p>
-                  <p>{elem?.planData?.views}</p>
-                  <p>{elem?.planData?.saves}</p>
+                  <p>{elem?.planData?.shares}</p>
                   <p>{elem?.planData?.follows}</p>
-                  <p>{elem?.planData?.subscribers}</p>
                 </div>
               </div>
 
@@ -261,12 +256,12 @@ const Details = () => {
           <p><b>Delivery Date</b> <span>{deliveryDate}</span></p>
         </div>
         <div className="summary">
-          <p><b>Total Package</b> <span>${totalAmount}</span></p>
-          <p><b>Tax</b> <span>${totalAmount * 0.02}</span></p>
+          <p><b>Total Package</b> <span>NGN{(totalAmount).toLocaleString()}</span></p>
+          <p><b>Tax</b> <span>NGN{totalAmount * 0.02}</span></p>
         </div>
         <div className="total">
           <b>Total</b>
-          <span>${totalAmount + (totalAmount * 0.02)}</span>
+          <span>NGN{(totalAmount + (totalAmount * 0.02)).toLocaleString()}</span>
         </div>
       </div>
       
@@ -287,7 +282,7 @@ const Details = () => {
                         purchase_units: [
                           {
                             amount: {
-                              value: totalAmount + (totalAmount * 0.02), // Use the specified amount here
+                              value: (totalAmount / 1500).toFixed(2) + ((totalAmount / 1500).toFixed(2) * 0.02), // Use the specified amount here
                             },
                           },
                         ],

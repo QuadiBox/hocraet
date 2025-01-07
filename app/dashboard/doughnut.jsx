@@ -28,9 +28,9 @@ const FancyDoughnutChart = ({ dataset }) => {
           '#DC1F1F',
           '#64E553',
         ],
-        borderWidth: 7, // Border thickness
-        hoverOffset: 3, // Fancy hover effect
-        spacing: 4, // Fancy hover effect
+        borderWidth: 5, // Border thickness
+        hoverOffset: 1, // Fancy hover effect
+        spacing: 3, // Fancy hover effect
       },
     ],
   };

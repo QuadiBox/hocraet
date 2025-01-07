@@ -45,7 +45,7 @@ const Details = () => {
                             <h3>{filteredList[0]?.plan} Plan</h3>
                             <p>Best for small business</p>
 
-                            <h2>Total: $<b>{totalAmount}</b></h2>
+                            <h2>Total: NGN<b>{totalAmount}</b></h2>
                         </div>
                         <img src="/shipping.png" alt="/" />
                     </div>
@@ -86,25 +86,21 @@ const Details = () => {
                                 <p>Likes</p>
                                 <p>Reposts</p>
                                 <p>Comments</p>
-                                <p>Views</p>
-                                <p>Saves</p>
+                                <p>Shares</p>
                                 <p>Follows</p>
-                                <p>Subscribers</p>
                             </div>
                             <div className={`unitdetail`}>
                                 <h3>{elem?.plan}</h3>
                                 <p>{elem?.planData?.likes}</p>
                                 <p>{elem?.planData?.reposts}</p>
                                 <p>{elem?.planData?.comments}</p>
-                                <p>{elem?.planData?.views}</p>
-                                <p>{elem?.planData?.saves}</p>
+                                <p>{elem?.planData?.shares}</p>
                                 <p>{elem?.planData?.follows}</p>
-                                <p>{elem?.planData?.subscribers}</p>
                             </div>
                             <div className={`unitdetail conc`}>
                                 <h3>Amount</h3>
                                 
-                                <b>${elem?.amount}</b>
+                                <b>NGN{elem?.amount}</b>
                             </div>
                         </div>
 

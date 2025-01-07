@@ -1556,7 +1556,8 @@ footer{
 
 .planTypeCntn{
     width: 100%;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     display: grid;
     align-items: center;
     gap: 20px;
@@ -2091,8 +2092,21 @@ footer{
     }
 
     .planTypeCntn{
-        min-height: max-content !important;
+        height: fit-content !important;
+        min-height: 190px;
+        margin-block: 20px;
     }
+
+    /* .planTypeCntn{
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        display: grid;
+        align-items: center;
+        gap: 20px;
+        grid-template-columns: repeat(3, minmax(300px, 1fr));
+        margin-block: 2em;
+    } */
     .planTypeCntn::-webkit-scrollbar{
         display: none;
     }

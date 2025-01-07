@@ -2094,7 +2094,6 @@ footer{
         height: fit-content !important;
         min-height: 190px;
         margin-block: 20px;
-        background-color: plum;
         align-items: top;
         overflow-x: auto;
         padding-top: 0px !important;
@@ -2112,7 +2111,6 @@ footer{
         max-height: 150px;
         cursor: pointer;
         margin-top: 0 !important;
-        background-color: red !important;
     }
 
     /* .unitPlanType{

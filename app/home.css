@@ -2112,7 +2112,7 @@ footer{
         max-height: 150px;
         cursor: pointer;
         margin-top: 0 !important;
-        background-color: red;
+        background-color: red !important;
     }
 
     .unitPlanType{
